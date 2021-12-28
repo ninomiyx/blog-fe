@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Route, useParams } from 'react-router-dom';
 import { parseISO, formatDistanceToNow } from 'date-fns';
 import { EntityId } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
@@ -36,14 +36,17 @@ const PostExcerpt: React.FunctionComponent<{ postId: EntityId }> = ({ postId }) 
       </span>
       <p>{post.content.substring(0, 100)}</p>
       <ReactionButtons post={post} />
-      <Link to={`/posts/${post.id}`} className="button">
+      <Link to={`/post/${post.id}`} className="button">
         View Post
       </Link>
+
     </article>
   );
 };
 
 const PostsList: React.FunctionComponent = () => {
+  const { page: pageStr } = useParams();
+  const page = parseInt(pageStr || '1', 10) || 1;
   const postIds = useSelector(selectPostIds);
   const status = useSelector<RootState, string>((state) => state.posts.status);
   const error = useSelector<RootState, Error | null>((state) => state.posts.error);
@@ -53,10 +56,8 @@ const PostsList: React.FunctionComponent = () => {
   const orderedPostIds = postIds.slice().reverse();
 
   useEffect(() => {
-    if (status === 'idle') {
-      dispatch(fetchPosts());
-    }
-  }, [status, dispatch]);
+    dispatch(fetchPosts({ page, pageSize: 10 }));
+  }, [page, dispatch]);
 
   let content;
 
@@ -73,8 +74,14 @@ const PostsList: React.FunctionComponent = () => {
   return (
     <section>
       <h2>Posts</h2>
-
       {content}
+      <div>
+        {
+          page > 1 ? <Link to={`/page/${page - 1}`}>previous</Link> : null
+        }
+        <span>{page}</span>
+        <Link to={`/page/${page + 1}`}>next</Link>
+      </div>
     </section>
   );
 };

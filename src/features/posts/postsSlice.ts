@@ -19,9 +19,14 @@ export interface Post {
   lastModifiedTimestamp: number;
 }
 
-export const fetchPosts = createAsyncThunk<Post[]>(
+export interface FetchPostsArgs {
+  page: number;
+  pageSize: number;
+}
+
+export const fetchPosts = createAsyncThunk<Post[], FetchPostsArgs>(
   'posts/fetchPosts',
-  async () => client.get<Post[]>('/api/posts'),
+  async ({ page, pageSize }) => client.get<Post[]>(`/api/posts?page=${page}&pageSize=${pageSize}`),
 );
 
 export const addNewPost = createAsyncThunk<Post, Post>(
@@ -70,6 +75,7 @@ const postsSlice = createSlice({
     [fetchPosts.pending.type]: (state) => {
       state.status = 'loading';
       state.error = null;
+      postsAdapter.removeAll(state);
     },
     [fetchPosts.fulfilled.type]: (state, action) => {
       if (state.status === 'loading') {
@@ -94,5 +100,5 @@ export default postsSlice.reducer;
 
 export const reloadAllPosts: () => AppThunk = () => async (dispatch) => {
   dispatch(postsCleared());
-  dispatch(fetchPosts());
+  dispatch(fetchPosts({ page: 1, pageSize: 10 }));
 };

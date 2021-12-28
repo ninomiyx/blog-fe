@@ -22,6 +22,14 @@ const App = (): JSX.Element => (
             </section>
           )}
         />
+        <Route
+          path="/page/:page"
+          element={(
+            <section>
+              <PostsList />
+            </section>
+          )}
+        />
       </Routes>
     </div>
   </Router>
