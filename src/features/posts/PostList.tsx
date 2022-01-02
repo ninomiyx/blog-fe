@@ -1,39 +1,30 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, Route, useParams } from 'react-router-dom';
-import { parseISO, formatDistanceToNow } from 'date-fns';
+import { Link, useParams } from 'react-router-dom';
+import { formatDistanceToNow } from 'date-fns';
 import { EntityId } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
 import {
   Post,
   fetchPosts,
-  selectAllPosts,
   selectPostIds,
   selectPostById,
 } from './postsSlice';
 
 import ReactionButtons from './ReactionButtons';
+import TimeAgo from './TimeAgo';
 
 const PostExcerpt: React.FunctionComponent<{ postId: EntityId }> = ({ postId }) => {
   const post = useSelector<RootState, Post | undefined>((state) => selectPostById(state, postId));
   if (!post) return null;
 
   const date = new Date(post.lastModifiedTimestamp);
-  const timeAgo = formatDistanceToNow(date);
 
   return (
     <article className="post-excerpt">
       <h3>{post.title}</h3>
       <span>TODO: show author</span>
-      <span title={timeAgo}>
-        &nbsp;
-        {' '}
-        <i>
-          {timeAgo}
-          {' '}
-          ago
-        </i>
-      </span>
+      <TimeAgo timestamp={date} />
       <p>{post.content.substring(0, 100)}</p>
       <ReactionButtons post={post} />
       <Link to={`/post/${post.id}`} className="button">

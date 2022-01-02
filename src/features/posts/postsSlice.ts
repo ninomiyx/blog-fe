@@ -56,6 +56,8 @@ const postsSlice = createSlice({
     status: 'idle',
     error: null,
   }),
+  // In reducers, we create an action and response to it
+  // In extraReducers, we only response to a already created action
   reducers: {
     postUpdated(state, action) {
       const { id, title, content } = action.payload;
