@@ -24,9 +24,21 @@ export interface FetchPostsArgs {
   pageSize: number;
 }
 
+export interface FetchPostByIdArgs {
+  postId: number;
+}
+
+// client.gets
+// generate a promise
+// promise will return 2 actions (pending, fulfilled/rejected)
 export const fetchPosts = createAsyncThunk<Post[], FetchPostsArgs>(
   'posts/fetchPosts',
   async ({ page, pageSize }) => client.get<Post[]>(`/api/posts?page=${page}&pageSize=${pageSize}`),
+);
+
+export const fetchPostById = createAsyncThunk<Post, FetchPostByIdArgs>(
+  'posts/fetchPostById',
+  async ({ postId }) => client.get<Post>(`/api/post/${postId}`),
 );
 
 export const addNewPost = createAsyncThunk<Post, Post>(
@@ -40,6 +52,7 @@ export const addNewPost = createAsyncThunk<Post, Post>(
   },
 );
 
+// id: entity:{}
 const postsAdapter = createEntityAdapter<Post>({
   sortComparer: (a, b) => a.lastModifiedTimestamp - b.lastModifiedTimestamp,
 });
@@ -86,6 +99,23 @@ const postsSlice = createSlice({
       }
     },
     [fetchPosts.rejected.type]: (state, action) => {
+      if (state.status === 'loading') {
+        state.status = 'failed';
+        state.error = action.payload;
+      }
+    },
+    [fetchPostById.pending.type]: (state) => {
+      state.status = 'loading';
+      state.error = null;
+      postsAdapter.removeAll(state);
+    },
+    [fetchPostById.fulfilled.type]: (state, action) => {
+      if (state.status === 'loading') {
+        postsAdapter.addOne(state, action.payload);
+        state.status = 'succeeded';
+      }
+    },
+    [fetchPostById.rejected.type]: (state, action) => {
       if (state.status === 'loading') {
         state.status = 'failed';
         state.error = action.payload;

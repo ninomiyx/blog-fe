@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { formatDistanceToNow } from 'date-fns';
 import { EntityId } from '@reduxjs/toolkit';
-import { RootState, AppThunk } from '../../app/store';
+import { RootState } from '../../app/store';
 import {
   Post,
   fetchPosts,
@@ -30,7 +29,6 @@ const PostExcerpt: React.FunctionComponent<{ postId: EntityId }> = ({ postId }) 
       <Link to={`/post/${post.id}`} className="button">
         View Post
       </Link>
-
     </article>
   );
 };
@@ -46,6 +44,8 @@ const PostsList: React.FunctionComponent = () => {
   // Sort posts in reverse chronological order
   const orderedPostIds = postIds.slice().reverse();
 
+  // dispatch(action)
+  // fetchPosts() return a action
   useEffect(() => {
     dispatch(fetchPosts({ page, pageSize: 10 }));
   }, [page, dispatch]);
