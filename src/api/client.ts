@@ -21,21 +21,21 @@ async function withBody<RequestType, ResponseType>(
 }
 
 async function get<ResponseType>(endpoint: string): Promise<ResponseType> {
-  return await withoutBody(endpoint, 'GET');
+  return withoutBody(endpoint, 'GET');
 }
 
 async function post<RequestType, ResponseType>(
   endpoint: string,
   request: RequestType,
 ): Promise<ResponseType> {
-  return await withBody(endpoint, 'POST', request);
+  return withBody(endpoint, 'POST', request);
 }
 
 async function put<RequestType, ResponseType>(
   endpoint: string,
   request: RequestType,
 ): Promise<ResponseType> {
-  return await withBody(endpoint, 'PUT', request);
+  return withBody(endpoint, 'PUT', request);
 }
 
 export default {

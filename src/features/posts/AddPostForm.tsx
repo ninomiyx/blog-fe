@@ -10,7 +10,7 @@ const AddPostForm: React.FunctionComponent = () => {
   const dispatch = useDispatch();
 
   const newPost: Post = {
-    id: 0,
+    id: -1,
     title,
     content,
     reactions: {},
