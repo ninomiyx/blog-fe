@@ -41,6 +41,8 @@ export const fetchPostById = createAsyncThunk<Post, FetchPostByIdArgs>(
   async ({ postId }) => client.get<Post>(`/api/post/${postId}`),
 );
 
+// add initialPost to backend database
+// returned response includes initialPost and an unique ID
 export const addNewPost = createAsyncThunk<Post, Post>(
   'posts/addNewPost',
   async (initialPost) => {

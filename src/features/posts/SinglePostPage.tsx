@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { EntityId } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import {
   fetchPostById,

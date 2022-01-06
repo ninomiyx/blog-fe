@@ -9,6 +9,7 @@ import { Navbar } from './app/Navbar';
 import PostsList from './features/posts/PostList';
 import './App.css';
 import SinglePostPage from './features/posts/SinglePostPage';
+import AddPostForm from './features/posts/AddPostForm';
 
 const App = (): JSX.Element => (
   <Router>
@@ -19,6 +20,7 @@ const App = (): JSX.Element => (
           path="/"
           element={(
             <section>
+              <AddPostForm />
               <PostsList />
             </section>
           )}
