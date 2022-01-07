@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 // import { useAppDispatch } from '../../app/store';
-import { addNewPost, Post } from './postsSlice';
+import { addNewPost, fetchPosts, Post } from './postsSlice';
 
 const AddPostForm: React.FunctionComponent = () => {
   const [title, setTitle] = React.useState('');
@@ -37,6 +37,7 @@ const AddPostForm: React.FunctionComponent = () => {
         await dispatch(addNewPost(newPost));
         setTitle('');
         setContent('');
+        await dispatch(fetchPosts({ page: 1, pageSize: 10 }));
       } catch (err) {
         console.log('Fail to save the post: ', err);
       } finally {

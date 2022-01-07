@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { RootState } from '../../app/store';
 import {
+  deletePostById,
   fetchPostById,
   Post,
   selectPostById,
@@ -15,12 +16,23 @@ const SinglePostPage: React.FunctionComponent = () => {
   const postId = postStr ? +postStr : 0;
   const post = useSelector<RootState, Post | undefined>((state) => selectPostById(state, postId));
   const dispatch = useDispatch();
+  const nav = useNavigate();
   const status = useSelector<RootState, string>((state) => state.posts.status);
   const error = useSelector<RootState, Error | null>((state) => state.posts.error);
 
   useEffect(() => {
     if (!post) dispatch(fetchPostById({ postId }));
-  }, [postId, dispatch, post]);
+  }, [postId, dispatch]);
+
+  const onDeleteButtonClicked = async () => {
+    const confirmed = window.confirm('Do you want to delete?');
+    if (confirmed) {
+      const ret = await dispatch(deletePostById({ postId }));
+      if (!(ret as any).error) {
+        nav('/');
+      }
+    }
+  };
 
   let content;
 
@@ -38,6 +50,7 @@ const SinglePostPage: React.FunctionComponent = () => {
           <span>TODO: show author</span>
           <p>{content}</p>
           <ReactionButtons post={post} />
+          <button type="button" onClick={onDeleteButtonClicked}>Delete Post</button>
         </section>
       );
     }

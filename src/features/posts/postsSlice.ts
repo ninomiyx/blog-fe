@@ -24,7 +24,7 @@ export interface FetchPostsArgs {
   pageSize: number;
 }
 
-export interface FetchPostByIdArgs {
+export interface PostByIdArgs {
   postId: number;
 }
 
@@ -36,9 +36,14 @@ export const fetchPosts = createAsyncThunk<Post[], FetchPostsArgs>(
   async ({ page, pageSize }) => client.get<Post[]>(`/api/posts?page=${page}&pageSize=${pageSize}`),
 );
 
-export const fetchPostById = createAsyncThunk<Post, FetchPostByIdArgs>(
+export const fetchPostById = createAsyncThunk<Post, PostByIdArgs>(
   'posts/fetchPostById',
   async ({ postId }) => client.get<Post>(`/api/post/${postId}`),
+);
+
+export const deletePostById = createAsyncThunk<void, PostByIdArgs>(
+  'posts/deleteOldPost',
+  async ({ postId }) => client.del(`/api/post/${postId}`),
 );
 
 // add initialPost to backend database
@@ -56,7 +61,7 @@ export const addNewPost = createAsyncThunk<Post, Post>(
 
 // id: entity:{}
 const postsAdapter = createEntityAdapter<Post>({
-  sortComparer: (a, b) => a.lastModifiedTimestamp - b.lastModifiedTimestamp,
+  sortComparer: (a, b) => a.id - b.id,
 });
 
 export const {
@@ -124,6 +129,9 @@ const postsSlice = createSlice({
       }
     },
     [addNewPost.fulfilled.name]: postsAdapter.addOne,
+    [deletePostById.fulfilled.type]: (state, action) => {
+      postsAdapter.removeOne(state, action.meta.arg.postId);
+    },
     /* eslint-enable no-param-reassign */
   },
 });

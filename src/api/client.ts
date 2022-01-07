@@ -2,7 +2,11 @@ const root = 'http://localhost:3001';
 
 async function withoutBody<ResponseType>(endpoint: string, method: string): Promise<ResponseType> {
   const res = await fetch(root + endpoint, { method });
-  return (await res.json()) as ResponseType;
+  const body = await res.json();
+  if (res.status >= 400) {
+    throw body;
+  }
+  return body as ResponseType;
 }
 
 async function withBody<RequestType, ResponseType>(
@@ -24,6 +28,10 @@ async function get<ResponseType>(endpoint: string): Promise<ResponseType> {
   return withoutBody(endpoint, 'GET');
 }
 
+async function del(endpoint: string) {
+  await fetch(root + endpoint, { method: 'DELETE' });
+}
+
 async function post<RequestType, ResponseType>(
   endpoint: string,
   request: RequestType,
@@ -40,6 +48,7 @@ async function put<RequestType, ResponseType>(
 
 export default {
   get,
+  del,
   post,
   put,
 };
