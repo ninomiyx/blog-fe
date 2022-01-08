@@ -28,6 +28,11 @@ export interface PostByIdArgs {
   postId: number;
 }
 
+export interface EditPostArgs {
+  postId: number;
+  title: string;
+  content: string;
+}
 // client.gets
 // generate a promise
 // promise will return 2 actions (pending, fulfilled/rejected)
@@ -46,6 +51,16 @@ export const deletePostById = createAsyncThunk<void, PostByIdArgs>(
   async ({ postId }) => client.del(`/api/post/${postId}`),
 );
 
+export const editPostById = createAsyncThunk<Post, EditPostArgs>(
+  'posts/editPost',
+  async ({ postId, title, content }) => {
+    const response = client.put<EditPostArgs, Post>(
+      `/api/post/${postId}`,
+      { postId, title, content },
+    );
+    return response;
+  },
+);
 // add initialPost to backend database
 // returned response includes initialPost and an unique ID
 export const addNewPost = createAsyncThunk<Post, Post>(
@@ -131,6 +146,18 @@ const postsSlice = createSlice({
     [addNewPost.fulfilled.name]: postsAdapter.addOne,
     [deletePostById.fulfilled.type]: (state, action) => {
       postsAdapter.removeOne(state, action.meta.arg.postId);
+    },
+    [editPostById.fulfilled.type]: (state, action) => {
+      if (action.payload.statusCode < 400) {
+        const { postId, title, content } = action.meta.arg;
+        const existingPost = state.entities[postId];
+        if (existingPost) {
+          existingPost.title = title;
+          existingPost.content = content;
+        }
+      } else {
+        console.log('Fail to update this post.');
+      }
     },
     /* eslint-enable no-param-reassign */
   },

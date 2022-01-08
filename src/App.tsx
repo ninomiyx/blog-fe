@@ -10,6 +10,7 @@ import PostsList from './features/posts/PostList';
 import './App.css';
 import SinglePostPage from './features/posts/SinglePostPage';
 import AddPostForm from './features/posts/AddPostForm';
+import EditPostForm from './features/posts/editPostForm';
 
 const App = (): JSX.Element => (
   <Router>
@@ -38,6 +39,14 @@ const App = (): JSX.Element => (
           element={(
             <section>
               <SinglePostPage />
+            </section>
+          )}
+        />
+        <Route
+          path="/editPost/:postId"
+          element={(
+            <section>
+              <EditPostForm />
             </section>
           )}
         />

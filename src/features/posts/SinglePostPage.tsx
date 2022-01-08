@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { RootState } from '../../app/store';
 import {
   deletePostById,
@@ -48,9 +48,10 @@ const SinglePostPage: React.FunctionComponent = () => {
           <h2>{post.title}</h2>
           <TimeAgo timestamp={date} />
           <span>TODO: show author</span>
-          <p>{content}</p>
+          <p>{post.content}</p>
           <ReactionButtons post={post} />
           <button type="button" onClick={onDeleteButtonClicked}>Delete Post</button>
+          <Link to={`/editPost/${post.id}`}>Edit Post</Link>
         </section>
       );
     }
