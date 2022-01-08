@@ -31,8 +31,11 @@ const EditPostForm: React.FunctionComponent = () => {
   };
   const canSave = [title, content].every(Boolean);
   const onSaveClicked = async () => {
+    const lastModifiedTimestamp = new Date().getTime();
     if (canSave) {
-      await dispatch(editPostById({ postId, title, content }));
+      await dispatch(editPostById({
+        postId, title, content, lastModifiedTimestamp,
+      }));
       nav(`/post/${postId}`);
     }
   };

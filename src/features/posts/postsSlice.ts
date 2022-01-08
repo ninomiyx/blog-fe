@@ -32,6 +32,7 @@ export interface EditPostArgs {
   postId: number;
   title: string;
   content: string;
+  lastModifiedTimestamp: number;
 }
 // client.gets
 // generate a promise
@@ -53,10 +54,14 @@ export const deletePostById = createAsyncThunk<void, PostByIdArgs>(
 
 export const editPostById = createAsyncThunk<Post, EditPostArgs>(
   'posts/editPost',
-  async ({ postId, title, content }) => {
+  async ({
+    postId, title, content, lastModifiedTimestamp,
+  }) => {
     const response = client.put<EditPostArgs, Post>(
       `/api/post/${postId}`,
-      { postId, title, content },
+      {
+        postId, title, content, lastModifiedTimestamp,
+      },
     );
     return response;
   },
@@ -148,15 +153,11 @@ const postsSlice = createSlice({
       postsAdapter.removeOne(state, action.meta.arg.postId);
     },
     [editPostById.fulfilled.type]: (state, action) => {
-      if (action.payload.statusCode < 400) {
-        const { postId, title, content } = action.meta.arg;
-        const existingPost = state.entities[postId];
-        if (existingPost) {
-          existingPost.title = title;
-          existingPost.content = content;
-        }
-      } else {
-        console.log('Fail to update this post.');
+      const { postId, title, content } = action.meta.arg;
+      const existingPost = state.entities[postId];
+      if (existingPost) {
+        existingPost.title = title;
+        existingPost.content = content;
       }
     },
     /* eslint-enable no-param-reassign */
