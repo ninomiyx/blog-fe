@@ -2,10 +2,13 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 // eslint-disable-next-line import/no-cycle
 import postsReducer from '../features/posts/postsSlice';
+// eslint-disable-next-line import/no-cycle
+import usersSclice from '../features/users/usersSclice';
 
 export const store = configureStore({
   reducer: {
     posts: postsReducer,
+    users: usersSclice,
   },
 });
 

@@ -99,10 +99,6 @@ const postsSlice = createSlice({
   // In reducers, we create an action and response to it
   // In extraReducers, we only response to a already created action
   reducers: {
-    postUpdated(state, action) {
-      const { id, title, content } = action.payload;
-      postsAdapter.updateOne(state, { id, changes: { title, content } });
-    },
     postsCleared: postsAdapter.removeAll,
     reactionAdded(state, action) {
       const { postId, reaction } = action.payload;
@@ -154,17 +150,14 @@ const postsSlice = createSlice({
     },
     [editPostById.fulfilled.type]: (state, action) => {
       const { postId, title, content } = action.meta.arg;
-      const existingPost = state.entities[postId];
-      if (existingPost) {
-        existingPost.title = title;
-        existingPost.content = content;
-      }
+      const id = postId;
+      postsAdapter.updateOne(state, { id, changes: { title, content } });
     },
     /* eslint-enable no-param-reassign */
   },
 });
 
-export const { postUpdated, reactionAdded, postsCleared } = postsSlice.actions;
+export const { reactionAdded, postsCleared } = postsSlice.actions;
 
 export default postsSlice.reducer;
 
