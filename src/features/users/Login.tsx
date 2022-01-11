@@ -3,20 +3,20 @@ import { useDispatch } from 'react-redux';
 import { CheckUserAuth } from './usersSclice';
 
 const LogInForm: React.FunctionComponent = () => {
-  const [username, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
   const [password, setPassWord] = React.useState('');
   const dispatch = useDispatch();
 
-  const onNameChanged = (e: React.FormEvent<HTMLInputElement>): void => {
-    setName(e.currentTarget.value);
+  const onEmailChanged = (e: React.FormEvent<HTMLInputElement>): void => {
+    setEmail(e.currentTarget.value);
   };
   const onPassWordChanged = (e: React.FormEvent<HTMLInputElement>): void => {
     setPassWord(e.currentTarget.value);
   };
-  const canSave = [username, password].every(Boolean);
+  const canSave = [email, password].every(Boolean);
   const onLoginClicked = async () => {
     if (canSave) {
-      await dispatch(CheckUserAuth({ username, password }));
+      await dispatch(CheckUserAuth({ email, password }));
     }
   };
 
@@ -24,19 +24,19 @@ const LogInForm: React.FunctionComponent = () => {
     <section>
       <h2>Log in</h2>
       <form>
-        <i>User name:</i>
+        <i>Email:</i>
         <input
           type="text"
-          id="postTitle"
-          name="postTitle"
-          value={username}
-          onChange={onNameChanged}
+          id="email"
+          name="email"
+          value={email}
+          onChange={onEmailChanged}
         />
         <i>Password</i>
         <input
           type="text"
-          id="postTitle"
-          name="postTitle"
+          id="passWord"
+          name="passWord"
           value={password}
           onChange={onPassWordChanged}
         />

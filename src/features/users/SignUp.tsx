@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { addNewUser, User } from './usersSclice';
 
 const SignUp: React.FunctionComponent = () => {
-  const [username, setName] = React.useState('');
+  const [displayname, setName] = React.useState('');
   const [password, setPassWord] = React.useState('');
   const [email, setEmail] = React.useState('');
   const dispatch = useDispatch();
@@ -17,13 +17,12 @@ const SignUp: React.FunctionComponent = () => {
   const onEmailChanged = (e: React.FormEvent<HTMLInputElement>): void => {
     setEmail(e.currentTarget.value);
   };
-  const canSave = [username, password, email].every(Boolean);
+  const canSave = [displayname, password, email].every(Boolean);
   const onSignupClicked = async () => {
     if (canSave) {
       const newUser: User = {
         id: -1,
-        username,
-        displayName: username,
+        displayName: displayname,
         email,
         password,
       };
@@ -39,7 +38,7 @@ const SignUp: React.FunctionComponent = () => {
           type="text"
           id="userName"
           name="userName"
-          value={username}
+          value={displayname}
           onChange={onNameChanged}
         />
         <i>Email</i>
