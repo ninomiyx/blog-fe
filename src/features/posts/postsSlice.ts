@@ -93,6 +93,7 @@ export const {
 const postsSlice = createSlice({
   name: 'posts',
   initialState: postsAdapter.getInitialState({
+    lastAction: '',
     status: 'idle',
     error: null,
   }),
@@ -111,6 +112,7 @@ const postsSlice = createSlice({
   extraReducers: {
     /* eslint-disable no-param-reassign */
     [fetchPosts.pending.type]: (state) => {
+      state.lastAction = 'fetchPosts';
       state.status = 'loading';
       state.error = null;
       postsAdapter.removeAll(state);
@@ -128,6 +130,7 @@ const postsSlice = createSlice({
       }
     },
     [fetchPostById.pending.type]: (state) => {
+      state.lastAction = 'fetchPostById';
       state.status = 'loading';
       state.error = null;
       postsAdapter.removeAll(state);
@@ -144,9 +147,24 @@ const postsSlice = createSlice({
         state.error = action.payload;
       }
     },
-    [addNewPost.fulfilled.name]: postsAdapter.addOne,
+    [addNewPost.pending.type]: (state) => {
+      state.lastAction = 'addNewPost';
+      state.status = 'loading';
+      state.error = null;
+    },
+    [addNewPost.fulfilled.type]: postsAdapter.addOne,
+    [deletePostById.pending.type]: (state) => {
+      state.lastAction = 'deletePostById';
+      state.status = 'loading';
+      state.error = null;
+    },
     [deletePostById.fulfilled.type]: (state, action) => {
       postsAdapter.removeOne(state, action.meta.arg.postId);
+    },
+    [editPostById.pending.type]: (state) => {
+      state.lastAction = 'editPostById';
+      state.status = 'loading';
+      state.error = null;
     },
     [editPostById.fulfilled.type]: (state, action) => {
       const { postId, title, content } = action.meta.arg;

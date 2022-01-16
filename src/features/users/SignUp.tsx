@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { addNewUser, User } from './userSclice';
+import { RootState } from '../../app/store';
 
 const SignUp: React.FunctionComponent = () => {
   const [displayname, setName] = React.useState('');
   const [password, setPassWord] = React.useState('');
   const [email, setEmail] = React.useState('');
   const dispatch = useDispatch();
+  const lastAction = useSelector<RootState, string>((state) => state.user.lastAction);
+  const status = useSelector<RootState, string>((state) => state.user.status);
+  const nav = useNavigate();
+
+  useEffect(() => {
+    if (lastAction === 'addNewUser') {
+      nav('/login');
+    }
+  }, [status]);
 
   const onNameChanged = (e: React.FormEvent<HTMLInputElement>): void => {
     setName(e.currentTarget.value);

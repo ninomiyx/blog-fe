@@ -18,19 +18,23 @@ const SinglePostPage: React.FunctionComponent = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
   const status = useSelector<RootState, string>((state) => state.posts.status);
+  const lastAction = useSelector<RootState, string>((state) => state.posts.lastAction);
   const error = useSelector<RootState, Error | null>((state) => state.posts.error);
 
   useEffect(() => {
     if (!post) dispatch(fetchPostById({ postId }));
   }, [postId, dispatch]);
 
+  useEffect(() => {
+    if (lastAction === 'deletePostById') {
+      nav('/');
+    }
+  }, [status]);
+
   const onDeleteButtonClicked = async () => {
     const confirmed = window.confirm('Do you want to delete?');
     if (confirmed) {
-      const ret = await dispatch(deletePostById({ postId }));
-      if (!(ret as any).error) {
-        nav('/');
-      }
+      await dispatch(deletePostById({ postId }));
     }
   };
 

@@ -1,40 +1,31 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { RootState } from './store';
 import './Navbar.css';
+import { logout } from '../features/users/userSclice';
 
 const Navbar: React.FunctionComponent = () => {
-  const status = useSelector<RootState, string>((state) => state.user.status);
   const userName = useSelector<RootState, string | undefined>(
     (state) => state.user.user?.displayName,
   );
-  let loginbox;
+  const dispatch = useDispatch();
 
-  if (status === 'succeeded') {
-    loginbox = (
-      <div>
-        <i>{userName}</i>
-      </div>
-    );
-  } else {
-    loginbox = (
-      <div>
-        <Link to="/login">Log in</Link>
-        <i>/</i>
-        <Link to="/signup">Sign up</Link>
-      </div>
-    );
-  }
+  const onLogoutClicked = async () => {
+    await dispatch(logout());
+  };
+
   return (
     <nav>
       <section>
         <Link to="/">Blog Home</Link>
         {
-          status === 'succeeded'
+          userName
             ? (
               <div>
                 <i>{userName}</i>
+                <i>/</i>
+                <button type="button" onClick={onLogoutClicked}>Log out</button>
               </div>
             )
             : (

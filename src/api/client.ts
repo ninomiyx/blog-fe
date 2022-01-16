@@ -32,6 +32,13 @@ async function get<ResponseType>(endpoint: string): Promise<ResponseType> {
   return withoutBody(endpoint, 'GET');
 }
 
+async function getWithoutReturn(endpoint: string) {
+  await fetch(root + endpoint, {
+    method: 'GET',
+    credentials: 'include',
+  });
+}
+
 async function del(endpoint: string) {
   await fetch(root + endpoint, { method: 'DELETE' });
 }
@@ -55,4 +62,5 @@ export default {
   del,
   post,
   put,
+  getWithoutReturn,
 };
