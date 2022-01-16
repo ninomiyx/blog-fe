@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addNewUser, User } from './usersSclice';
+import { addNewUser, User } from './userSclice';
 
 const SignUp: React.FunctionComponent = () => {
   const [displayname, setName] = React.useState('');

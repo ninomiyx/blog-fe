@@ -4,7 +4,7 @@ import {
   Routes,
   Route,
 } from 'react-router-dom';
-import { Navbar } from './app/Navbar';
+import Navbar from './app/Navbar';
 import PostsList from './features/posts/PostList';
 import './App.css';
 import SinglePostPage from './features/posts/SinglePostPage';

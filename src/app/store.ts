@@ -3,12 +3,12 @@ import { useDispatch } from 'react-redux';
 // eslint-disable-next-line import/no-cycle
 import postsReducer from '../features/posts/postsSlice';
 // eslint-disable-next-line import/no-cycle
-import usersSclice from '../features/users/usersSclice';
+import userSclice from '../features/users/userSclice';
 
 export const store = configureStore({
   reducer: {
     posts: postsReducer,
-    users: usersSclice,
+    user: userSclice,
   },
 });
 

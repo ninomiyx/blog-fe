@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { CheckUserAuth } from './usersSclice';
+import { CheckUserAuth } from './userSclice';
 
 const LogInForm: React.FunctionComponent = () => {
   const [email, setEmail] = React.useState('');
