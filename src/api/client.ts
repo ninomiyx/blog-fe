@@ -1,7 +1,10 @@
 const root = 'http://localhost:3001';
 
 async function withoutBody<ResponseType>(endpoint: string, method: string): Promise<ResponseType> {
-  const res = await fetch(root + endpoint, { method });
+  const res = await fetch(root + endpoint, {
+    method,
+    credentials: 'include',
+  });
   const body = await res.json();
   if (res.status >= 400) {
     throw body;
@@ -19,6 +22,7 @@ async function withBody<RequestType, ResponseType>(
     headers: {
       'content-type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify(request),
   });
   return (await res.json()) as ResponseType;
