@@ -25,7 +25,11 @@ async function withBody<RequestType, ResponseType>(
     credentials: 'include',
     body: JSON.stringify(request),
   });
-  return (await res.json()) as ResponseType;
+  const body = await res.json();
+  if (res.status >= 400) {
+    throw body;
+  }
+  return body as ResponseType;
 }
 
 async function get<ResponseType>(endpoint: string): Promise<ResponseType> {

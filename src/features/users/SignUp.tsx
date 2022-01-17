@@ -14,7 +14,7 @@ const SignUp: React.FunctionComponent = () => {
   const nav = useNavigate();
 
   useEffect(() => {
-    if (lastAction === 'addNewUser') {
+    if (status === 'succeeded' && lastAction === 'addNewUser') {
       nav('/login');
     }
   }, [status]);
