@@ -31,6 +31,12 @@ export interface PostByIdArgs {
   postId: number;
 }
 
+export interface FetchPostsByAuthorIdArgs {
+  page: number;
+  pageSize: number;
+  authorId: number;
+}
+
 // client.gets
 // generate a promise
 // promise will return 2 actions (pending, fulfilled/rejected)
@@ -42,6 +48,11 @@ export const fetchPosts = createAsyncThunk<Post[], FetchPostsArgs>(
 export const fetchPostById = createAsyncThunk<Post, PostByIdArgs>(
   'posts/fetchPostById',
   async ({ postId }) => client.get<Post>(`/api/post/${postId}`),
+);
+
+export const fetchPostByAthorId = createAsyncThunk<Post[], FetchPostsByAuthorIdArgs>(
+  'posts/fetchPostByAuthorId',
+  async ({ page, pageSize, authorId }) => client.get<Post[]>(`/api/posts/${authorId}?page=${page}&pageSize=${pageSize}`),
 );
 
 export const deletePostById = createAsyncThunk<void, PostByIdArgs>(
@@ -146,6 +157,24 @@ const postsSlice = createSlice({
       }
     },
     [fetchPostById.rejected.type]: (state, action) => {
+      if (state.status === 'loading') {
+        state.status = 'failed';
+        state.error = action.payload;
+      }
+    },
+    [fetchPostByAthorId.pending.type]: (state) => {
+      state.lastAction = 'fetchPostByAthorId';
+      state.status = 'loading';
+      state.error = null;
+      postsAdapter.removeAll(state);
+    },
+    [fetchPostByAthorId.fulfilled.type]: (state, action) => {
+      if (state.status === 'loading') {
+        postsAdapter.upsertMany(state, action.payload);
+        state.status = 'succeeded';
+      }
+    },
+    [fetchPostByAthorId.rejected.type]: (state, action) => {
       if (state.status === 'loading') {
         state.status = 'failed';
         state.error = action.payload;

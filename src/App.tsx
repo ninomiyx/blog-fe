@@ -12,6 +12,7 @@ import AddPostForm from './features/posts/AddPostForm';
 import EditPostForm from './features/posts/editPostForm';
 import LogInForm from './features/users/Login';
 import SignUp from './features/users/SignUp';
+import SingleAuthorPostList from './features/posts/SingleAuthorPostList';
 
 const App = (): JSX.Element => (
   <Router>
@@ -28,6 +29,7 @@ const App = (): JSX.Element => (
           )}
         />
         <Route path="/page/:page" element={<PostsList />} />
+        <Route path="/author/:authorId/:page" element={<SingleAuthorPostList />} />
         <Route path="/post/:postId" element={<SinglePostPage />} />
         <Route path="/editPost/:postId" element={<EditPostForm />} />
         <Route path="/login" element={<LogInForm />} />

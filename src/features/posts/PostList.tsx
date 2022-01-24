@@ -9,22 +9,22 @@ import {
   selectPostIds,
   selectPostById,
 } from './postsSlice';
-
 import ReactionButtons from './ReactionButtons';
 import TimeAgo from './TimeAgo';
 
-const PostExcerpt: React.FunctionComponent<{ postId: EntityId }> = ({ postId }) => {
+export const PostExcerpt: React.FunctionComponent<{ postId: EntityId }> = ({ postId }) => {
   const post = useSelector<RootState, Post | undefined>((state) => selectPostById(state, postId));
   if (!post) return null;
 
   const date = new Date(post.lastModifiedTimestamp);
-
+  const currAuthorId = post.authorId;
+  console.log(post);
   return (
     <article className="post-excerpt">
       <h3>{post.title}</h3>
       <span>
         Author:
-        {post.displayName}
+        <Link to={`/author/${currAuthorId}/1`}>{post.displayName}</Link>
       </span>
       <TimeAgo timestamp={date} />
       <p>{post.content.substring(0, 100)}</p>
