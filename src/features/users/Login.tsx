@@ -13,7 +13,7 @@ const LogInForm: React.FunctionComponent = () => {
   const nav = useNavigate();
 
   useEffect(() => {
-    if (lastAction === 'login') {
+    if (status === 'succeeded' && lastAction === 'login') {
       nav('/');
     }
   }, [status]);

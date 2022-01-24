@@ -17,6 +17,9 @@ export interface Post {
   content: string;
   reactions: PostReaction;
   lastModifiedTimestamp: number;
+  postTimestamp: number;
+  authorId: number;
+  displayName: string;
 }
 
 export interface FetchPostsArgs {
@@ -28,12 +31,6 @@ export interface PostByIdArgs {
   postId: number;
 }
 
-export interface EditPostArgs {
-  postId: number;
-  title: string;
-  content: string;
-  lastModifiedTimestamp: number;
-}
 // client.gets
 // generate a promise
 // promise will return 2 actions (pending, fulfilled/rejected)
@@ -52,15 +49,22 @@ export const deletePostById = createAsyncThunk<void, PostByIdArgs>(
   async ({ postId }) => client.del(`/api/post/${postId}`),
 );
 
-export const editPostById = createAsyncThunk<Post, EditPostArgs>(
+export const editPostById = createAsyncThunk<Post, Post>(
   'posts/editPost',
   async ({
-    postId, title, content, lastModifiedTimestamp,
+    id, title, content, lastModifiedTimestamp, authorId, displayName,
   }) => {
-    const response = client.put<EditPostArgs, Post>(
-      `/api/post/${postId}`,
+    const response = client.put<Post, Post>(
+      `/api/post/${id}`,
       {
-        postId, title, content, lastModifiedTimestamp,
+        id,
+        title,
+        content,
+        lastModifiedTimestamp,
+        reactions: {},
+        postTimestamp: lastModifiedTimestamp,
+        authorId,
+        displayName,
       },
     );
     return response;
@@ -152,13 +156,17 @@ const postsSlice = createSlice({
       state.status = 'loading';
       state.error = null;
     },
-    [addNewPost.fulfilled.type]: postsAdapter.addOne,
+    [addNewPost.fulfilled.type]: (state, action) => {
+      postsAdapter.addOne(state, action.payload);
+      state.status = 'succeeded';
+    },
     [deletePostById.pending.type]: (state) => {
       state.lastAction = 'deletePostById';
       state.status = 'loading';
       state.error = null;
     },
     [deletePostById.fulfilled.type]: (state, action) => {
+      state.status = 'succeeded';
       postsAdapter.removeOne(state, action.meta.arg.postId);
     },
     [editPostById.pending.type]: (state) => {
@@ -167,9 +175,11 @@ const postsSlice = createSlice({
       state.error = null;
     },
     [editPostById.fulfilled.type]: (state, action) => {
-      const { postId, title, content } = action.meta.arg;
-      const id = postId;
-      postsAdapter.updateOne(state, { id, changes: { title, content } });
+      const {
+        id, title, content, lastModifiedTimestamp,
+      } = action.meta.arg;
+      state.status = 'succeeded';
+      postsAdapter.updateOne(state, { id, changes: { title, content, lastModifiedTimestamp } });
     },
     /* eslint-enable no-param-reassign */
   },

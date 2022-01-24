@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
 // import { useAppDispatch } from '../../app/store';
 import { addNewPost, fetchPosts, Post } from './postsSlice';
 
@@ -7,6 +8,14 @@ const AddPostForm: React.FunctionComponent = () => {
   const [title, setTitle] = React.useState('');
   const [content, setContent] = React.useState('');
   const [addRequestStatus, setAddRequestStatus] = React.useState('idle');
+  const userName = useSelector<RootState, string | undefined>(
+    (state) => state.user.user?.displayName,
+  );
+  const userId = useSelector<RootState, number | undefined>(
+    (state) => state.user.user?.id,
+  );
+
+  const author = userName !== undefined ? userName : 'Anonymous';
   const dispatch = useDispatch();
 
   const newPost: Post = {
@@ -15,6 +24,9 @@ const AddPostForm: React.FunctionComponent = () => {
     content,
     reactions: {},
     lastModifiedTimestamp: new Date().getTime(),
+    postTimestamp: new Date().getTime(),
+    authorId: userId !== undefined ? userId : 0,
+    displayName: author,
   };
 
   const onTitleChanged = (e: React.FormEvent<HTMLInputElement>): void => {
@@ -58,7 +70,10 @@ const AddPostForm: React.FunctionComponent = () => {
           value={title}
           onChange={onTitleChanged}
         />
-        <span>Post Author: TODO</span>
+        <span>
+          Post Author:
+          { author }
+        </span>
         <span>Post Content</span>
         <textarea
           id="postContent"

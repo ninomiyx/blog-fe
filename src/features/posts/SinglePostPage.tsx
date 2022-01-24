@@ -26,7 +26,7 @@ const SinglePostPage: React.FunctionComponent = () => {
   }, [postId, dispatch]);
 
   useEffect(() => {
-    if (lastAction === 'deletePostById') {
+    if (status === 'succeeded' && lastAction === 'deletePostById') {
       nav('/');
     }
   }, [status]);
@@ -51,7 +51,10 @@ const SinglePostPage: React.FunctionComponent = () => {
         <section>
           <h2>{post.title}</h2>
           <TimeAgo timestamp={date} />
-          <span>TODO: show author</span>
+          <span>
+            Author:
+            {post.displayName}
+          </span>
           <p>{post.content}</p>
           <ReactionButtons post={post} />
           <button type="button" onClick={onDeleteButtonClicked}>Delete Post</button>

@@ -18,24 +18,31 @@ const Navbar: React.FunctionComponent = () => {
   return (
     <nav>
       <section>
-        <Link to="/">Blog Home</Link>
-        {
-          userName
-            ? (
-              <div>
-                <i>{userName}</i>
-                <i>/</i>
-                <button type="button" onClick={onLogoutClicked}>Log out</button>
-              </div>
-            )
-            : (
-              <div>
-                <Link to="/login">Log in</Link>
-                <i>/</i>
-                <Link to="/signup">Sign up</Link>
-              </div>
-            )
-        }
+        <div className="left">
+          <img src="/logo192.png" alt="logo" className="logo" />
+          <Link to="/">
+            Blog Home
+          </Link>
+        </div>
+        <div className="right">
+          {
+            userName
+              ? (
+                <div>
+                  <i>{userName}</i>
+                  <i> / </i>
+                  <button type="button" className="button" onClick={onLogoutClicked}>Log out</button>
+                </div>
+              )
+              : (
+                <div>
+                  <Link to="/login">Log in</Link>
+                  <i> / </i>
+                  <Link to="/signup">Sign up</Link>
+                </div>
+              )
+          }
+        </div>
       </section>
     </nav>
   );

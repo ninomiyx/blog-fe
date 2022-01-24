@@ -22,7 +22,10 @@ const PostExcerpt: React.FunctionComponent<{ postId: EntityId }> = ({ postId }) 
   return (
     <article className="post-excerpt">
       <h3>{post.title}</h3>
-      <span>TODO: show author</span>
+      <span>
+        Author:
+        {post.displayName}
+      </span>
       <TimeAgo timestamp={date} />
       <p>{post.content.substring(0, 100)}</p>
       <ReactionButtons post={post} />

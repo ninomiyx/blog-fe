@@ -14,6 +14,7 @@ const EditPostForm: React.FunctionComponent = () => {
   const { postId: postStr } = useParams();
   const postId = postStr ? +postStr : 0;
   const post = useSelector<RootState, Post | undefined>((state) => selectPostById(state, postId));
+  const author = post?.displayName === undefined ? '' : post.displayName;
   const dispatch = useDispatch();
   const nav = useNavigate();
 
@@ -30,12 +31,20 @@ const EditPostForm: React.FunctionComponent = () => {
     setContent(e.currentTarget.value);
   };
   const canSave = [title, content].every(Boolean);
+  const newPost: Post = {
+    id: postId,
+    title,
+    content,
+    reactions: {},
+    lastModifiedTimestamp: new Date().getTime(),
+    postTimestamp: new Date().getTime(),
+    authorId: 0,
+    displayName: author,
+  };
+
   const onSaveClicked = async () => {
-    const lastModifiedTimestamp = new Date().getTime();
     if (canSave) {
-      await dispatch(editPostById({
-        postId, title, content, lastModifiedTimestamp,
-      }));
+      await dispatch(editPostById(newPost));
       nav(`/post/${postId}`);
     }
   };
@@ -53,7 +62,10 @@ const EditPostForm: React.FunctionComponent = () => {
           value={title}
           onChange={onTitleChanged}
         />
-        <span>Post Author: TODO</span>
+        <span>
+          Post Author:
+          {author}
+        </span>
         <span>Post Content</span>
         <textarea
           id="postContent"
