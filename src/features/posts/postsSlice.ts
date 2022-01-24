@@ -52,7 +52,7 @@ export const fetchPostById = createAsyncThunk<Post, PostByIdArgs>(
 
 export const fetchPostByAthorId = createAsyncThunk<Post[], FetchPostsByAuthorIdArgs>(
   'posts/fetchPostByAuthorId',
-  async ({ page, pageSize, authorId }) => client.get<Post[]>(`/api/posts/${authorId}?page=${page}&pageSize=${pageSize}`),
+  async ({ page, pageSize, authorId }) => client.get<Post[]>(`/api/author/${authorId}?page=${page}&pageSize=${pageSize}`),
 );
 
 export const deletePostById = createAsyncThunk<void, PostByIdArgs>(

@@ -38,6 +38,11 @@ const SinglePostPage: React.FunctionComponent = () => {
     }
   };
 
+  const userId = useSelector<RootState, number | undefined>(
+    (state) => state.user.user?.id,
+  );
+  const authorId = post?.authorId;
+
   let content;
 
   if (status === 'loading') {
@@ -56,9 +61,14 @@ const SinglePostPage: React.FunctionComponent = () => {
             {post.displayName}
           </span>
           <p>{post.content}</p>
-          <ReactionButtons post={post} />
-          <button type="button" onClick={onDeleteButtonClicked}>Delete Post</button>
-          <Link to={`/editPost/${post.id}`}>Edit Post</Link>
+          {
+            authorId === userId ? (
+              <section>
+                <button type="button" onClick={onDeleteButtonClicked}>Delete Post</button>
+                <Link to={`/editPost/${post.id}`}>Edit Post</Link>
+              </section>
+            ) : <ReactionButtons post={post} />
+          }
         </section>
       );
     }
