@@ -35,7 +35,7 @@ const AddPostForm: React.FunctionComponent = () => {
   const onContentChanged = (e: React.FormEvent<HTMLTextAreaElement>): void => {
     setContent(e.currentTarget.value);
   };
-  const canSave = [title, content].every(Boolean) && addRequestStatus === 'idle';
+  const canSave = author !== 'Anonymous' && [title, content].every(Boolean) && addRequestStatus === 'idle';
   const onSaveClicked = async () => {
     if (canSave) {
       try {
@@ -59,10 +59,10 @@ const AddPostForm: React.FunctionComponent = () => {
   };
 
   return (
-    <section>
+    <section className="input-group">
       <h2>Add a New Post</h2>
       <form>
-        <h2>Post Title:</h2>
+        <h3>Post Title</h3>
         <input
           type="text"
           id="postTitle"
@@ -70,18 +70,21 @@ const AddPostForm: React.FunctionComponent = () => {
           value={title}
           onChange={onTitleChanged}
         />
-        <span>
-          Post Author:
+        <p>
+          Author:
+          {' '}
           { author }
-        </span>
-        <span>Post Content</span>
+        </p>
+        <h3>Post Content</h3>
         <textarea
           id="postContent"
           name="postContent"
           value={content}
           onChange={onContentChanged}
         />
-        <button type="button" onClick={onSaveClicked} disabled={!canSave}>Save</button>
+        <div>
+          <button type="button" onClick={onSaveClicked} disabled={!canSave} className="button">Save</button>
+        </div>
       </form>
     </section>
   );

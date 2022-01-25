@@ -64,7 +64,7 @@ const SinglePostPage: React.FunctionComponent = () => {
           {
             authorId === userId ? (
               <section>
-                <button type="button" onClick={onDeleteButtonClicked}>Delete Post</button>
+                <button type="button" onClick={onDeleteButtonClicked} className="button">Delete Post</button>
                 <Link to={`/editPost/${post.id}`}>Edit Post</Link>
               </section>
             ) : <ReactionButtons post={post} />

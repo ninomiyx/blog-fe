@@ -1,56 +1,32 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { EntityId } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import {
-  Post,
-  fetchPosts,
   selectPostIds,
-  selectPostById,
+  fetchPostByAthorId,
 } from './postsSlice';
-import ReactionButtons from './ReactionButtons';
-import TimeAgo from './TimeAgo';
+import { PostExcerpt } from './PostList';
 
-export const PostExcerpt: React.FunctionComponent<{ postId: EntityId }> = ({ postId }) => {
-  const post = useSelector<RootState, Post | undefined>((state) => selectPostById(state, postId));
-  if (!post) return null;
-
-  const date = new Date(post.lastModifiedTimestamp);
-  const currAuthorId = post.authorId;
-  return (
-    <article className="post-excerpt" key={post.id}>
-      <h3>{post.title}</h3>
-      <span>
-        Author:
-        <Link to={`/author/${currAuthorId}/1`}>{post.displayName}</Link>
-      </span>
-      <TimeAgo timestamp={date} />
-      <p className="post-content">{post.content.substring(0, 100)}</p>
-      <ReactionButtons post={post} />
-      <Link to={`/post/${post.id}`} className="button">
-        View Post
-      </Link>
-    </article>
-  );
-};
-
-const PostsList: React.FunctionComponent = () => {
-  const { page: pageStr } = useParams();
+const SingleAuthorPostList: React.FunctionComponent = () => {
+  const { authorId: authorIdStr, page: pageStr } = useParams();
+  const authorId = parseInt(authorIdStr || '0', 10) || 0;
+  if (authorId === 0) return null;
   const page = parseInt(pageStr || '1', 10) || 1;
   const postIds = useSelector(selectPostIds);
   const status = useSelector<RootState, string>((state) => state.posts.status);
   const error = useSelector<RootState, Error | null>((state) => state.posts.error);
   const dispatch = useDispatch();
-
+  const authorName = useSelector<RootState, string | undefined>(
+    (state) => state.posts.entities[postIds[0]]?.displayName,
+  );
+  // console.log(postIds);
   // Sort posts in reverse chronological order
   const orderedPostIds = postIds.slice().reverse();
 
-  // dispatch(action)
-  // fetchPosts() return a action
   useEffect(() => {
-    dispatch(fetchPosts({ page, pageSize: 10 }));
-  }, [page, dispatch]);
+    dispatch(fetchPostByAthorId({ page, pageSize: 10, authorId }));
+  }, [page, dispatch, authorId]);
 
   let content;
 
@@ -66,7 +42,11 @@ const PostsList: React.FunctionComponent = () => {
 
   return (
     <section className="post">
-      <h2>Posts</h2>
+      <h2>
+        { authorName }
+        &nbsp;
+        Posts
+      </h2>
       {content}
       <div className="page">
         {
@@ -79,4 +59,4 @@ const PostsList: React.FunctionComponent = () => {
   );
 };
 
-export default PostsList;
+export default SingleAuthorPostList;
