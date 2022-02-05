@@ -11,6 +11,7 @@ import {
 } from './postsSlice';
 import ReactionButtons from './ReactionButtons';
 import TimeAgo from './TimeAgo';
+import './PostList.css';
 
 export const PostExcerpt: React.FunctionComponent<{ postId: EntityId }> = ({ postId }) => {
   const post = useSelector<RootState, Post | undefined>((state) => selectPostById(state, postId));
@@ -42,6 +43,9 @@ const PostsList: React.FunctionComponent = () => {
   const status = useSelector<RootState, string>((state) => state.posts.status);
   const error = useSelector<RootState, Error | null>((state) => state.posts.error);
   const dispatch = useDispatch();
+  const userId = useSelector<RootState, number | undefined>(
+    (state) => state.user.user?.id,
+  );
 
   // Sort posts in reverse chronological order
   const orderedPostIds = postIds.slice().reverse();
@@ -74,6 +78,11 @@ const PostsList: React.FunctionComponent = () => {
         }
         <span>{page}</span>
         <Link to={`/page/${page + 1}`}>next</Link>
+      </div>
+      <div className="add">
+        {
+          userId ? <Link to="/addnewpost">+</Link> : <Link to="/login">+</Link>
+        }
       </div>
     </section>
   );

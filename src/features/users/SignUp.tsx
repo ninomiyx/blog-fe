@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addNewUser, User } from './userSclice';
 import { RootState } from '../../app/store';
+import '../form.css';
 
 const SignUp: React.FunctionComponent = () => {
   const [displayname, setName] = React.useState('');
@@ -41,34 +42,43 @@ const SignUp: React.FunctionComponent = () => {
     }
   };
   return (
-    <section>
-      <h2>Sign up</h2>
+    <section className="input-group">
+      <h2 className="h2">Sign up</h2>
       <form>
-        <i>User name:</i>
-        <input
-          type="text"
-          id="userName"
-          name="userName"
-          value={displayname}
-          onChange={onNameChanged}
-        />
-        <i>Email</i>
-        <input
-          type="text"
-          id="email"
-          name="email"
-          value={email}
-          onChange={onEmailChanged}
-        />
-        <i>Password</i>
-        <input
-          type="text"
-          id="passWord"
-          name="passWord"
-          value={password}
-          onChange={onPassWordChanged}
-        />
-        <button type="button" onClick={onSignupClicked} disabled={!canSave}>Sign up</button>
+        <div className="input-group mb-3">
+          <span className="input-group-text">Name</span>
+          <input
+            type="text"
+            id="userName"
+            className="form-control"
+            name="userName"
+            value={displayname}
+            onChange={onNameChanged}
+          />
+        </div>
+        <div className="input-group mb-3">
+          <span className="input-group-text">Email</span>
+          <input
+            type="text"
+            id="email"
+            className="form-control"
+            name="email"
+            value={email}
+            onChange={onEmailChanged}
+          />
+        </div>
+        <div className="input-group mb-3">
+          <span className="input-group-text">Password</span>
+          <input
+            type="text"
+            id="passWord"
+            className="form-control"
+            name="passWord"
+            value={password}
+            onChange={onPassWordChanged}
+          />
+        </div>
+        <button className="button" type="button" onClick={onSignupClicked} disabled={!canSave}>Sign up</button>
       </form>
     </section>
   );

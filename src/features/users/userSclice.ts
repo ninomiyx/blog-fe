@@ -39,6 +39,17 @@ export const login = createAsyncThunk<User, LoginRequestArgs>(
   },
 );
 
+export const changeprofile = createAsyncThunk<UserWithoutPassword, User>(
+  'user/changeprofile',
+  async (userdata) => {
+    const response = await client.put<User, UserWithoutPassword>(
+      '/api/user/changeprofile',
+      userdata,
+    );
+    return response;
+  },
+);
+
 export const checkLogin = createAsyncThunk<UserWithoutPassword, void>(
   'user/checkLogin',
   async () => {
@@ -171,6 +182,30 @@ const userSlice = createSlice({
       }
     },
     [logout.rejected.type]: (state, action) => {
+      if (state.status === 'loading') {
+        state.status = 'failed';
+        state.error = action.payload;
+      }
+    },
+    [changeprofile.pending.type]: (state) => {
+      state.lastAction = 'changeprofile';
+      state.status = 'loading';
+      state.error = null;
+      state.user = undefined;
+    },
+    [changeprofile.fulfilled.type]: (state, action) => {
+      if (state.status === 'loading') {
+        const { id, displayName, email } = action.payload;
+        state.user = {
+          id,
+          displayName,
+          email,
+          password: '',
+        };
+        state.status = 'succeeded';
+      }
+    },
+    [changeprofile.rejected.type]: (state, action) => {
       if (state.status === 'loading') {
         state.status = 'failed';
         state.error = action.payload;

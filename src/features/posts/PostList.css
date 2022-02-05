@@ -1,0 +1,10 @@
+.add {
+  position: fixed;
+  width: 5rem;
+  height: 5rem;
+  right: 1rem;
+  bottom: 1rem;
+  line-height: 4.5rem;
+  font-size: 4rem;
+  text-align: center;
+}

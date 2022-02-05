@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { login } from './userSclice';
 import { RootState } from '../../app/store';
+import '../form.css';
 
 const LogInForm: React.FunctionComponent = () => {
   const [email, setEmail] = React.useState('');
@@ -32,26 +33,32 @@ const LogInForm: React.FunctionComponent = () => {
   };
 
   return (
-    <section>
-      <h2>Log in</h2>
+    <section className="input-group">
+      <h2 className="h2">Log in</h2>
       <form>
-        <i>Email:</i>
-        <input
-          type="text"
-          id="email"
-          name="email"
-          value={email}
-          onChange={onEmailChanged}
-        />
-        <i>Password</i>
-        <input
-          type="text"
-          id="passWord"
-          name="passWord"
-          value={password}
-          onChange={onPassWordChanged}
-        />
-        <button type="button" onClick={onLoginClicked} disabled={!canSave}>Log In</button>
+        <div className="input-group mb-3">
+          <span className="input-group-text">Email</span>
+          <input
+            type="text"
+            id="emai"
+            name="email"
+            className="form-control"
+            value={email}
+            onChange={onEmailChanged}
+          />
+        </div>
+        <div className="input-group mb-3">
+          <span className="input-group-text">Password</span>
+          <input
+            type="text"
+            id="passWord"
+            name="passWord"
+            className="form-control"
+            value={password}
+            onChange={onPassWordChanged}
+          />
+        </div>
+        <button type="button" className="button" onClick={onLoginClicked} disabled={!canSave}>Log In</button>
       </form>
     </section>
   );

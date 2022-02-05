@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
-// import { useAppDispatch } from '../../app/store';
 import { addNewPost, fetchPosts, Post } from './postsSlice';
+import '../form.css';
 
 const AddPostForm: React.FunctionComponent = () => {
   const [title, setTitle] = React.useState('');
@@ -60,28 +60,36 @@ const AddPostForm: React.FunctionComponent = () => {
 
   return (
     <section className="input-group">
-      <h2>Add a New Post</h2>
+      <h2 className="h2">Add a New Post</h2>
       <form>
-        <h3>Post Title</h3>
-        <input
-          type="text"
-          id="postTitle"
-          name="postTitle"
-          value={title}
-          onChange={onTitleChanged}
-        />
-        <p>
-          Author:
-          {' '}
-          { author }
-        </p>
-        <h3>Post Content</h3>
-        <textarea
-          id="postContent"
-          name="postContent"
-          value={content}
-          onChange={onContentChanged}
-        />
+        <div className="input-group mb-3">
+          <span className="input-group-text">Post Title</span>
+          <input
+            type="text"
+            id="postTitle"
+            name="postTitle"
+            className="form-control"
+            value={title}
+            onChange={onTitleChanged}
+          />
+        </div>
+        <div className="input-group mb-3">
+          <span className="input-group-text">
+            Author:
+            {' '}
+            { author }
+          </span>
+        </div>
+        <div className="input-group mb-3">
+          <span className="input-group-text">Post Content</span>
+          <textarea
+            id="postContent"
+            name="postContent"
+            className="form-control"
+            value={content}
+            onChange={onContentChanged}
+          />
+        </div>
         <div>
           <button type="button" onClick={onSaveClicked} disabled={!canSave} className="button">Save</button>
         </div>

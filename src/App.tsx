@@ -13,6 +13,7 @@ import EditPostForm from './features/posts/editPostForm';
 import LogInForm from './features/users/Login';
 import SignUp from './features/users/SignUp';
 import SingleAuthorPostList from './features/posts/SingleAuthorPostList';
+import EditProfile from './features/users/editProfile';
 
 const App = (): JSX.Element => (
   <Router>
@@ -23,7 +24,6 @@ const App = (): JSX.Element => (
           path="/"
           element={(
             <section>
-              <AddPostForm />
               <PostsList />
             </section>
           )}
@@ -34,6 +34,8 @@ const App = (): JSX.Element => (
         <Route path="/editPost/:postId" element={<EditPostForm />} />
         <Route path="/login" element={<LogInForm />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/addnewpost" element={<AddPostForm />} />
+        <Route path="/editprofile" element={<EditProfile />} />
       </Routes>
     </div>
   </Router>

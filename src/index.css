@@ -20,15 +20,6 @@ p {
   font-size: 1.1rem;
 }
 
-.input-group {
-  margin-bottom: 1rem !important;
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  width: 100%;
-}
-
 section {
   max-width: 800px;
   margin-left: auto;
