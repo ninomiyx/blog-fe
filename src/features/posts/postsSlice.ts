@@ -110,6 +110,7 @@ const postsSlice = createSlice({
   initialState: postsAdapter.getInitialState({
     lastAction: '',
     status: 'idle',
+    recentNewPostId: -1,
     error: null,
   }),
   // In reducers, we create an action and response to it
@@ -187,6 +188,7 @@ const postsSlice = createSlice({
     },
     [addNewPost.fulfilled.type]: (state, action) => {
       postsAdapter.addOne(state, action.payload);
+      state.recentNewPostId = action.payload.id;
       state.status = 'succeeded';
     },
     [deletePostById.pending.type]: (state) => {

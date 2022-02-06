@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../app/store';
-import { addNewPost, fetchPosts, Post } from './postsSlice';
+import { addNewPost, Post } from './postsSlice';
 import '../form.css';
 
 const AddPostForm: React.FunctionComponent = () => {
@@ -14,6 +15,18 @@ const AddPostForm: React.FunctionComponent = () => {
   const userId = useSelector<RootState, number | undefined>(
     (state) => state.user.user?.id,
   );
+  const lastAction = useSelector<RootState, string>((state) => state.posts.lastAction);
+  const status = useSelector<RootState, string>((state) => state.posts.status);
+  const nav = useNavigate();
+  const addedPostId = useSelector<RootState, number | -1>(
+    (state) => state.posts.recentNewPostId,
+  );
+
+  useEffect(() => {
+    if (status === 'succeeded' && lastAction === 'addNewPost' && addedPostId !== -1) {
+      nav(`/post/${addedPostId}`);
+    }
+  }, [status, addedPostId]);
 
   const author = userName !== undefined ? userName : 'Anonymous';
   const dispatch = useDispatch();
@@ -53,9 +66,6 @@ const AddPostForm: React.FunctionComponent = () => {
         // but we do not know whether this request is fulfilled or rejected
         // .unwrap() can help
         await dispatch(addNewPost(newPost));
-        setTitle('');
-        setContent('');
-        await dispatch(fetchPosts({ page: 1, pageSize: 10 }));
       } catch (err) {
         console.log('Fail to save the post: ', err);
       } finally {

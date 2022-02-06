@@ -10,6 +10,7 @@ import {
 } from './postsSlice';
 import ReactionButtons from './ReactionButtons';
 import TimeAgo from './TimeAgo';
+import './PostList.css';
 
 const SinglePostPage: React.FunctionComponent = () => {
   const { postId: postStr } = useParams();
@@ -53,14 +54,14 @@ const SinglePostPage: React.FunctionComponent = () => {
     } else {
       const date = new Date(post.lastModifiedTimestamp);
       content = (
-        <section>
+        <section className="post-excerpt">
           <h2>{post.title}</h2>
-          <TimeAgo timestamp={date} />
           <span>
             Author:
-            {post.displayName}
+            <Link to={`/author/${post.authorId}/1`}>{post.displayName}</Link>
           </span>
-          <p>{post.content}</p>
+          <TimeAgo timestamp={date} />
+          <p className="post-content">{post.content}</p>
           {
             authorId === userId ? (
               <section>
