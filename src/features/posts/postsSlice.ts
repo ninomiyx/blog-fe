@@ -8,7 +8,7 @@ import { RootState, AppThunk } from '../../app/store';
 import client from '../../api/client';
 
 export interface PostReaction {
-  [key: string]: number;
+  [key: string]: number,
 }
 
 export interface Post {

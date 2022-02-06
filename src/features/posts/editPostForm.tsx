@@ -8,7 +8,6 @@ import {
   fetchPostById,
   editPostById,
 } from './postsSlice';
-import ReactionButtons from './ReactionButtons';
 
 const EditPostForm: React.FunctionComponent = () => {
   const { postId: postStr } = useParams();
