@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import Editor from 'rich-markdown-editor';
 import { RootState } from '../../app/store';
 import {
   deletePostById,
@@ -56,12 +57,14 @@ const SinglePostPage: React.FunctionComponent = () => {
       content = (
         <section className="post-excerpt">
           <h2>{post.title}</h2>
-          <span>
-            Author:
-            <Link to={`/author/${post.authorId}/1`}>{post.displayName}</Link>
-          </span>
-          <TimeAgo timestamp={date} />
-          <p className="post-content">{post.content}</p>
+          <div className="author">
+            <span>
+              Author:
+              <Link to={`/author/${post.authorId}/1`}>{post.displayName}</Link>
+            </span>
+            <TimeAgo timestamp={date} />
+          </div>
+          <Editor value={`${post.content}`} readOnly />
           {
             authorId === userId ? (
               <section>

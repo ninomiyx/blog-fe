@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
+import Editor from 'rich-markdown-editor';
 import { RootState } from '../../app/store';
 import {
   Post,
@@ -8,6 +9,7 @@ import {
   fetchPostById,
   editPostById,
 } from './postsSlice';
+import '../form.css';
 
 const EditPostForm: React.FunctionComponent = () => {
   const { postId: postStr } = useParams();
@@ -26,8 +28,8 @@ const EditPostForm: React.FunctionComponent = () => {
   const onTitleChanged = (e: React.FormEvent<HTMLInputElement>): void => {
     setTitle(e.currentTarget.value);
   };
-  const onContentChanged = (e: React.FormEvent<HTMLTextAreaElement>): void => {
-    setContent(e.currentTarget.value);
+  const onContentChanged = (value: () => string): void => {
+    setContent(value());
   };
   const canSave = [title, content].every(Boolean);
   const newPost: Post = {
@@ -49,31 +51,33 @@ const EditPostForm: React.FunctionComponent = () => {
   };
 
   return (
-    <section>
-      <h2>Edit Post</h2>
+    <section className="input-group">
+      <h2 className="h2">Edit Post</h2>
       <form>
-        <h3>Post Title:</h3>
-        <input
-          type="text"
-          id="postTitle"
-          name="postTitle"
-          placeholder={title}
-          value={title}
-          onChange={onTitleChanged}
-        />
-        <span>
-          Post Author:
-          {author}
-        </span>
+        <div className="input-group mb-3">
+          <span className="input-group-text">Post Title</span>
+          <input
+            type="text"
+            id="postTitle"
+            name="postTitle"
+            className="form-control"
+            placeholder={title}
+            value={title}
+            onChange={onTitleChanged}
+          />
+        </div>
+        <div className="input-group mb-3">
+          <span className="input-group-text">
+            Author:
+            {' '}
+            { author }
+          </span>
+        </div>
         <span>Post Content</span>
-        <textarea
-          id="postContent"
-          name="postContent"
-          placeholder={content}
-          value={content}
-          onChange={onContentChanged}
-        />
-        <button type="button" onClick={onSaveClicked} disabled={!canSave}>Save</button>
+        <Editor defaultValue={content} onChange={onContentChanged} placeholder={content} />
+        <div>
+          <button type="button" onClick={onSaveClicked} disabled={!canSave} className="input-button">Save</button>
+        </div>
       </form>
     </section>
   );

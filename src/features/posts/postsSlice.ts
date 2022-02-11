@@ -31,6 +31,11 @@ export interface PostByIdArgs {
   postId: number;
 }
 
+export interface ReactionChangeArgs {
+  id: number;
+  reaction: string;
+}
+
 export interface FetchPostsByAuthorIdArgs {
   page: number;
   pageSize: number;
@@ -94,6 +99,18 @@ export const addNewPost = createAsyncThunk<Post, Post>(
   },
 );
 
+export const reactionChanged = createAsyncThunk<ReactionChangeArgs, ReactionChangeArgs>(
+  'posts/reactionChanged',
+  async (ReactionChangeArgs) => {
+    const { id } = ReactionChangeArgs;
+    const response = await client.post<ReactionChangeArgs, ReactionChangeArgs>(
+      `/api/post/${id}/reaction`,
+      ReactionChangeArgs,
+    );
+    return response;
+  },
+);
+
 // id: entity:{}
 const postsAdapter = createEntityAdapter<Post>({
   sortComparer: (a, b) => a.id - b.id,
@@ -117,13 +134,6 @@ const postsSlice = createSlice({
   // In extraReducers, we only response to a already created action
   reducers: {
     postsCleared: postsAdapter.removeAll,
-    reactionAdded(state, action) {
-      const { postId, reaction } = action.payload;
-      const existingPost = state.entities[postId];
-      if (existingPost) {
-        existingPost.reactions[reaction] += 1;
-      }
-    },
   },
   extraReducers: {
     /* eslint-disable no-param-reassign */
@@ -212,11 +222,24 @@ const postsSlice = createSlice({
       state.status = 'succeeded';
       postsAdapter.updateOne(state, { id, changes: { title, content, lastModifiedTimestamp } });
     },
+    [reactionChanged.pending.type]: (state) => {
+      state.lastAction = 'reactionChanged';
+      state.status = 'loading';
+      state.error = null;
+    },
+    [reactionChanged.fulfilled.type]: (state, action) => {
+      const { id, reaction } = action.meta.arg;
+      state.status = 'succeeded';
+      const existingPost = state.entities[id];
+      if (existingPost) {
+        existingPost.reactions[reaction] += 1;
+      }
+    },
     /* eslint-enable no-param-reassign */
   },
 });
 
-export const { reactionAdded, postsCleared } = postsSlice.actions;
+export const { postsCleared } = postsSlice.actions;
 
 export default postsSlice.reducer;
 

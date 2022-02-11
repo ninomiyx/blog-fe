@@ -58,7 +58,7 @@ const LogInForm: React.FunctionComponent = () => {
             onChange={onPassWordChanged}
           />
         </div>
-        <button type="button" className="button" onClick={onLoginClicked} disabled={!canSave}>Log In</button>
+        <button type="button" className="input-button" onClick={onLoginClicked} disabled={!canSave}>Log In</button>
       </form>
     </section>
   );

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Editor from 'rich-markdown-editor';
 import { RootState } from '../../app/store';
 import { addNewPost, Post } from './postsSlice';
 import '../form.css';
@@ -51,8 +52,8 @@ const AddPostForm: React.FunctionComponent = () => {
   const onTitleChanged = (e: React.FormEvent<HTMLInputElement>): void => {
     setTitle(e.currentTarget.value);
   };
-  const onContentChanged = (e: React.FormEvent<HTMLTextAreaElement>): void => {
-    setContent(e.currentTarget.value);
+  const onContentChanged = (value: () => string): void => {
+    setContent(value());
   };
   const canSave = author !== 'Anonymous' && [title, content].every(Boolean) && addRequestStatus === 'idle';
   const onSaveClicked = async () => {
@@ -96,16 +97,7 @@ const AddPostForm: React.FunctionComponent = () => {
             { author }
           </span>
         </div>
-        <div className="input-group mb-3">
-          <span className="input-group-text">Post Content</span>
-          <textarea
-            id="postContent"
-            name="postContent"
-            className="form-control"
-            value={content}
-            onChange={onContentChanged}
-          />
-        </div>
+        <Editor defaultValue={content} onChange={onContentChanged} />
         <div>
           <button type="button" onClick={onSaveClicked} disabled={!canSave} className="button">Save</button>
         </div>

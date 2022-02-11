@@ -8,3 +8,15 @@
   font-size: 4rem;
   text-align: center;
 }
+
+.div .hidden {
+  display: none;
+}
+
+.post-excerpt .button {
+  margin-top: 1.75rem;
+}
+
+.author {
+  margin-bottom: 1.5rem;
+}

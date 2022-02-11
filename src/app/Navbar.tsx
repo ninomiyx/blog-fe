@@ -22,28 +22,6 @@ const Navbar: React.FunctionComponent = () => {
     nav('/editprofile');
   };
 
-  // const directToAdd = () => {
-  //   nav('/addnewpost');
-  // };
-  // const directToPost = () => {
-  //   nav(`/author/${currAuthorId}/1`);
-  // };
-
-  // const menu = (
-  //   <Menu>
-  //     <Menu.Item>
-  //       <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-  //         1st menu item
-  //       </a>
-  //     </Menu.Item>
-  //     <Menu.Item>
-  //       <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-  //         2nd menu item
-  //       </a>
-  //     </Menu.Item>
-  //   </Menu>
-  // );
-
   return (
     <nav>
       <section>
