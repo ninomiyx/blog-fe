@@ -70,7 +70,7 @@ const SignUp: React.FunctionComponent = () => {
         <div className="input-group mb-3">
           <span className="input-group-text">Password</span>
           <input
-            type="text"
+            type="password"
             id="passWord"
             className="form-control"
             name="passWord"
@@ -78,7 +78,7 @@ const SignUp: React.FunctionComponent = () => {
             onChange={onPassWordChanged}
           />
         </div>
-        <button className="input-button" type="button" onClick={onSignupClicked} disabled={!canSave}>Sign up</button>
+        <button className="button" type="button" onClick={onSignupClicked} disabled={!canSave}>Sign up</button>
       </form>
     </section>
   );

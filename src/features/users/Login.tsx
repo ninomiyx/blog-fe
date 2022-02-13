@@ -50,7 +50,7 @@ const LogInForm: React.FunctionComponent = () => {
         <div className="input-group mb-3">
           <span className="input-group-text">Password</span>
           <input
-            type="text"
+            type="password"
             id="passWord"
             name="passWord"
             className="form-control"
@@ -58,7 +58,7 @@ const LogInForm: React.FunctionComponent = () => {
             onChange={onPassWordChanged}
           />
         </div>
-        <button type="button" className="input-button" onClick={onLoginClicked} disabled={!canSave}>Log In</button>
+        <button type="button" className="button" onClick={onLoginClicked} disabled={!canSave}>Log In</button>
       </form>
     </section>
   );
