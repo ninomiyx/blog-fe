@@ -1,4 +1,4 @@
-const root = window.location.href.indexOf('localhost') >= 0 ? 'http://localhost:3001' : '';
+const root = window.location.href.indexOf('localhost') >= 0 ? 'http://localhost:3001' : 'https://api.yuxin.press';
 
 async function withoutBody<ResponseType>(endpoint: string, method: string): Promise<ResponseType> {
   const res = await fetch(root + endpoint, {
