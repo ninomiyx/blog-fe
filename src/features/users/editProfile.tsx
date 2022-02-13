@@ -79,7 +79,7 @@ const EditProfile: React.FunctionComponent = () => {
             onChange={onPassWordChanged}
           />
         </div>
-        <button type="button" className="input-button" onClick={onChangeClicked} disabled={!canSave}>Save</button>
+        <button type="button" className="button" onClick={onChangeClicked} disabled={!canSave}>Save</button>
       </form>
     </section>
   );

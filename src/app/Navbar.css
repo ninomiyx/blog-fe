@@ -50,3 +50,8 @@ nav a:hover {
   background: #608385;
 }
 
+@media (max-width: 600px) {
+  nav .right {
+    display: none;
+  }
+}
