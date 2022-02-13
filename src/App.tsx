@@ -5,6 +5,7 @@ import {
   Route,
 } from 'react-router-dom';
 import Navbar from './app/Navbar';
+import Home from './app/Home';
 import PostsList from './features/posts/PostList';
 import './App.css';
 import SinglePostPage from './features/posts/SinglePostPage';
@@ -20,14 +21,7 @@ const App = (): JSX.Element => (
     <Navbar />
     <div className="App">
       <Routes>
-        <Route
-          path="/"
-          element={(
-            <section>
-              <PostsList />
-            </section>
-          )}
-        />
+        <Route path="/" element={<Home />} />
         <Route path="/page/:page" element={<PostsList />} />
         <Route path="/author/:authorId/:page" element={<SingleAuthorPostList />} />
         <Route path="/post/:postId" element={<SinglePostPage />} />
