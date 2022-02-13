@@ -67,8 +67,8 @@ const AddPostForm: React.FunctionComponent = () => {
         // but we do not know whether this request is fulfilled or rejected
         // .unwrap() can help
         await dispatch(addNewPost(newPost));
-      } catch (err) {
-        console.log('Fail to save the post: ', err);
+      } catch {
+        // Fail to save the post
       } finally {
         setAddRequestStatus('idle');
       }

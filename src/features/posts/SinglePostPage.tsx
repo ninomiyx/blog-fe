@@ -34,6 +34,8 @@ const SinglePostPage: React.FunctionComponent = () => {
   }, [status]);
 
   const onDeleteButtonClicked = async () => {
+    // TODO use html for confirm
+    // eslint-disable-next-line no-alert
     const confirmed = window.confirm('Do you want to delete?');
     if (confirmed) {
       await dispatch(deletePostById({ postId }));

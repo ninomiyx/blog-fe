@@ -84,6 +84,7 @@ interface UserState {
   lastAction: string,
   user?: User,
   status: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any,
 }
 const initialState = {
@@ -129,10 +130,8 @@ const userSlice = createSlice({
       state.error = null;
       state.user = undefined;
     },
-    [addNewUser.fulfilled.type]: (state, action) => {
+    [addNewUser.fulfilled.type]: (state) => {
       if (state.status === 'loading') {
-        const { message } = action.payload;
-        console.log(message);
         state.status = 'succeeded';
       }
     },
