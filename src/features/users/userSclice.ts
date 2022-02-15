@@ -97,7 +97,12 @@ const initialState = {
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    clearLastAction(state) {
+      // eslint-disable-next-line no-param-reassign
+      state.lastAction = '';
+    },
+  },
   extraReducers: {
     /* eslint-disable no-param-reassign */
     [login.pending.type]: (state) => {
@@ -213,4 +218,5 @@ const userSlice = createSlice({
   },
 });
 
+export const { clearLastAction } = userSlice.actions;
 export default userSlice.reducer;

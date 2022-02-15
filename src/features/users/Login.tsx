@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { login } from './userSclice';
+import { login, clearLastAction } from './userSclice';
 import { RootState } from '../../app/store';
 import '../form.css';
 
@@ -12,6 +12,10 @@ const LogInForm: React.FunctionComponent = () => {
   const lastAction = useSelector<RootState, string>((state) => state.user.lastAction);
   const status = useSelector<RootState, string>((state) => state.user.status);
   const nav = useNavigate();
+
+  useEffect(() => {
+    if (lastAction === 'addNewUser') dispatch(clearLastAction());
+  });
 
   useEffect(() => {
     if (status === 'succeeded' && lastAction === 'login') {
