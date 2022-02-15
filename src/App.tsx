@@ -12,7 +12,7 @@ import SinglePostPage from './features/posts/SinglePostPage';
 import AddPostForm from './features/posts/AddPostForm';
 import EditPostForm from './features/posts/editPostForm';
 import LogInForm from './features/users/Login';
-import SignUp from './features/users/SignUp';
+// import SignUp from './features/users/SignUp';
 import SingleAuthorPostList from './features/posts/SingleAuthorPostList';
 import EditProfile from './features/users/editProfile';
 
@@ -27,7 +27,7 @@ const App = (): JSX.Element => (
         <Route path="/post/:postId" element={<SinglePostPage />} />
         <Route path="/editPost/:postId" element={<EditPostForm />} />
         <Route path="/login" element={<LogInForm />} />
-        <Route path="/signup" element={<SignUp />} />
+        {/* <Route path="/signup" element={<SignUp />} /> */}
         <Route path="/addnewpost" element={<AddPostForm />} />
         <Route path="/editprofile" element={<EditProfile />} />
       </Routes>

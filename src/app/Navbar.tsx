@@ -48,7 +48,8 @@ const Navbar: React.FunctionComponent = () => {
                 <div>
                   <Link to="/login">Log in</Link>
                   <i> / </i>
-                  <Link to="/signup">Sign up</Link>
+                  <button type="button" className="button" disabled>Sign up</button>
+                  {/* <Link to="/signup">Sign up</Link> */}
                 </div>
               )
           }
