@@ -28,7 +28,7 @@ const Navbar: React.FunctionComponent = () => {
         <div className="left">
           <img src="/logo192.png" alt="logo" className="logo" />
           <Link to="/">
-            Blog Home
+            Blog&nbsp;Home
           </Link>
         </div>
         <div className="right">
@@ -41,14 +41,14 @@ const Navbar: React.FunctionComponent = () => {
                     {' '}
                   </button>
                   <i> / </i>
-                  <button type="button" className="button" onClick={onLogoutClicked}>Log out</button>
+                  <button type="button" className="button" onClick={onLogoutClicked}>Log&nbsp;out</button>
                 </div>
               )
               : (
                 <div>
-                  <Link to="/login">Log in</Link>
+                  <Link to="/login">Log&nbsp;in</Link>
                   <i> / </i>
-                  <button type="button" className="button" disabled>Sign up</button>
+                  <button type="button" className="button" disabled>Sign&nbsp;up</button>
                   {/* <Link to="/signup">Sign up</Link> */}
                 </div>
               )

@@ -32,7 +32,7 @@ export const PostExcerpt: React.FunctionComponent<{ postId: EntityId }> = ({ pos
       {/* <p className="post-content">{post.content.substring(0, 100)}</p> */}
       <ReactionButtons post={post} />
       <Link to={`/post/${post.id}`} className="button">
-        View Post
+        View&nbsp;Post
       </Link>
     </article>
   );
@@ -72,7 +72,9 @@ const PostsList: React.FunctionComponent = () => {
         {
           page > 1 ? <Link to={`/page/${page - 1}`}>previous</Link> : null
         }
+        <span>&emsp;</span>
         <span>{page}</span>
+        <span>&emsp;</span>
         <Link to={`/page/${page + 1}`}>next</Link>
       </div>
       <div className="add">

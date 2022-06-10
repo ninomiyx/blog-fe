@@ -55,7 +55,7 @@ const AddPostForm: React.FunctionComponent = () => {
   const onContentChanged = (value: () => string): void => {
     setContent(value());
   };
-  const canSave = author !== 'Anonymous' && [title, content].every(Boolean) && addRequestStatus === 'idle';
+  const canSave = author !== 'Anonymous' && author !== '' && [title, content].every(Boolean) && addRequestStatus === 'idle';
   const onSaveClicked = async () => {
     if (canSave) {
       try {

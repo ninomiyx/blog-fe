@@ -73,7 +73,6 @@ const EditPostForm: React.FunctionComponent = () => {
             { author }
           </span>
         </div>
-        <span>Post Content</span>
         <Editor defaultValue={content} onChange={onContentChanged} placeholder={content} />
         <div>
           <button type="button" onClick={onSaveClicked} disabled={!canSave} className="button">Save</button>

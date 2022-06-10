@@ -52,7 +52,9 @@ const SingleAuthorPostList: React.FunctionComponent = () => {
         {
           page > 1 ? <Link to={`/page/${page - 1}`}>previous</Link> : null
         }
+        <span>&emsp;</span>
         <span>{page}</span>
+        <span>&emsp;</span>
         <Link to={`/page/${page + 1}`}>next</Link>
       </div>
     </section>

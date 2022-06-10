@@ -78,7 +78,7 @@ const SignUp: React.FunctionComponent = () => {
             onChange={onPassWordChanged}
           />
         </div>
-        <button className="button" type="button" onClick={onSignupClicked} disabled={!canSave}>Sign up</button>
+        <button className="button" type="button" onClick={onSignupClicked} disabled={!canSave}>Sign&nbsp;up</button>
       </form>
     </section>
   );
